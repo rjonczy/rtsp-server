@@ -1,0 +1,19 @@
+version: "3"
+services:
+  rtsp_server:
+    image: gcr.io/pathr-operations/rtsp-server:v0.0.2
+
+    ports:
+      - "8554:8554"
+    networks:
+      - rtsp_net
+  rtsp_pusher:
+    image: gcr.io/pathr-operations/rtsp-stream-pusher:v0.0.9
+    environment:
+      - STREAMS=3
+      - RTSP_SERVER=rtsp://rtsp_server:8554
+    networks:
+      - rtsp_net
+
+networks:
+  rtsp_net:
